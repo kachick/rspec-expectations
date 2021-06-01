@@ -46,7 +46,7 @@ module RSpec
       def syntax=(values)
         RSpec.deprecate(
           "`syntax =`",
-          :message => "By default syntax will be `:expect` in RSpec 4." \
+          :message => "By default syntax will be `:expect` in RSpec 4. " \
           "Please remove any specification of `syntax` configuration."
         )
         if Array(values).include?(:expect)

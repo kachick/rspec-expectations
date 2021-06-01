@@ -16,8 +16,11 @@ module RSpec
       # Generates a deprecation warning for the given method
       def warn_about_should(method_name)
         RSpec.deprecate(
-          "Using `#{method_name}` from rspec-expectations' old `:should` will be removed in RSpec 4",
-          :replacement => "the new `:expect` syntax"
+          "`should =`",
+          {
+            :replacement => "the new `:expect` syntax",
+            :message => "Using `should` from rspec-expectations' old `:should` will be removed in RSpec 4"
+          }
         )
       end
 
