@@ -52,6 +52,11 @@ module RSpec
 
         if Array(values).include?(:should)
           Expectations::Syntax.enable_should
+          RSpec.deprecate(
+            "`:should` syntax",
+            :message => "`:should` syntax is deprecated and will be removed in RSpec 4." \
+            "By default syntax will be `:expect`. Please remove any custom syntax configuration."
+          )
         else
           Expectations::Syntax.disable_should
         end
