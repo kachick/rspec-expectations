@@ -14,13 +14,11 @@ module RSpec
 
       # @api private
       # Generates a deprecation warning everytime should expectations is used
-      def warn_about_should(method_name)
+      def warn_about_should
         RSpec.deprecate(
           "`should =`",
-          {
-            :replacement => "the new `:expect` syntax",
-            :message => "Using `should` from rspec-expectations' will be removed in RSpec 4"
-          }
+          :replacement => "the new `:expect` syntax",
+          :message => "Using `should` from rspec-expectations' will be removed in RSpec 4"
         )
       end
 
@@ -31,12 +29,12 @@ module RSpec
 
         syntax_host.module_exec do
           def should(matcher=nil, message=nil, &block)
-            ::RSpec::Expectations::Syntax.warn_about_should(::Kernel.__method__)
+            ::RSpec::Expectations::Syntax.warn_about_should
             ::RSpec::Expectations::PositiveExpectationHandler.handle_matcher(self, matcher, message, &block)
           end
 
           def should_not(matcher=nil, message=nil, &block)
-            ::RSpec::Expectations::Syntax.warn_about_should(::Kernel.__method__)
+            ::RSpec::Expectations::Syntax.warn_about_should
             ::RSpec::Expectations::NegativeExpectationHandler.handle_matcher(self, matcher, message, &block)
           end
         end

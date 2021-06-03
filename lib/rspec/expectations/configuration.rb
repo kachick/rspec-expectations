@@ -17,7 +17,7 @@ module RSpec
     #   # or
     #
     #   RSpec::Expectations.configuration
-    class Configuration
+    class Configuration # rubocop:disable Metrics/ClassLength
       # @private
       FALSE_POSITIVE_BEHAVIOURS =
         {
@@ -43,7 +43,7 @@ module RSpec
       #       c.syntax = [:should, :expect]
       #     end
       #   end
-      def syntax=(values)
+      def syntax=(values) # rubocop:disable Metrics/MethodLength
         if self.class.warn_about_syntax?
           RSpec.deprecate('Expectations syntax configuration',
                           :replacement => 'the default `expect` syntax',
