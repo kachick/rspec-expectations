@@ -209,20 +209,6 @@ module RSpec
           configure_syntax :expect
         end
 
-        describe "`:should` being enabled by default deprecation" do
-          before { configure_default_syntax }
-
-          it "does not warn when only the should syntax is explicitly configured" do
-            configure_syntax(:should)
-            3.should eq(3)
-          end
-
-          it "does not warn when both the should and expect syntaxes are explicitly configured" do
-            configure_syntax([:should, :expect])
-            3.should eq(3)
-          end
-        end
-
         it 'can re-enable the :should syntax' do
           configure_syntax :expect
           configure_syntax [:should, :expect]
@@ -257,11 +243,6 @@ module RSpec
           def configured_syntax
             RSpec::Matchers.configuration.syntax
           end
-        end
-
-        describe "`:should` being enabled by default deprecation" do
-          before { configure_default_syntax }
-
         end
       end
 
