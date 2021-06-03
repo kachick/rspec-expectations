@@ -19,7 +19,7 @@ module RSpec
           "`should =`",
           {
             :replacement => "the new `:expect` syntax",
-            :message => "Using `should` from rspec-expectations' old `:should` will be removed in RSpec 4"
+            :message => "Using `should` from rspec-expectations' will be removed in RSpec 4"
           }
         )
       end
