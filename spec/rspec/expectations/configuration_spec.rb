@@ -157,6 +157,24 @@ module RSpec
           configure_syntax(@orig_syntax)
         end
 
+        it "warns when should syntax is choosen" do
+          configure_syntax :expect
+
+          configuration_arguments = [
+            "Expectations syntax configuration",
+            {:call_site=>nil, :replacement=>"the default `expect` syntax"},
+          ]
+          expect(RSpec).to receive(:deprecate).with(*configuration_arguments).at_least(:once)
+
+          syntax_arguments = [
+            "`:should` Expectations syntax",
+            {:call_site=>nil, :replacement=>"the default `expect` syntax"},
+          ]
+          expect(RSpec).to receive(:deprecate).with(*syntax_arguments).at_least(:once)
+
+          configure_syntax :should
+        end
+
         it 'can limit the syntax to :should' do
           configure_syntax :should
           configured_syntax.should eq([:should])
@@ -244,18 +262,6 @@ module RSpec
         describe "`:should` being enabled by default deprecation" do
           before { configure_default_syntax }
 
-          it "warns when the should syntax is called by default" do
-            expected_arguments = [
-              "`should =`",
-              {
-                :replacement => "the new `:expect` syntax",
-                :message => "Using `should` from rspec-expectations' old `:should` will be removed in RSpec 4"
-              }
-            ]
-
-            expect(RSpec).to receive(:deprecate).with(*expected_arguments)
-            3.should eq(3)
-          end
         end
       end
 
@@ -286,28 +292,6 @@ module RSpec
         # default value. in spec_helper.rb we store the default value
         # in $default_expectation_syntax so we can use it here.
         expect($default_expectation_syntax).to contain_exactly(:expect, :should) # rubocop:disable Style/GlobalVars
-      end
-
-      describe "`:should` being enabled by default deprecation" do
-        before { configure_default_syntax }
-
-        it "warns when the should syntax is called by default" do
-          expected_arguments = [
-            "`should =`",
-            {
-              :replacement => "the new `:expect` syntax",
-              :message => "Using `should` from rspec-expectations' old `:should` will be removed in RSpec 4"
-            }
-          ]
-
-          expect(RSpec).to receive(:deprecate).with(*expected_arguments)
-          3.should eq(3)
-        end
-
-        it "includes the call site in the deprecation warning by default" do
-          expect_deprecation_with_call_site(__FILE__, __LINE__ + 1)
-          3.should eq(3)
-        end
       end
     end
   end

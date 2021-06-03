@@ -44,11 +44,11 @@ module RSpec
       #     end
       #   end
       def syntax=(values)
-        RSpec.deprecate(
-          "`syntax =`",
-          :message => "By default syntax will be `:expect` in RSpec 4. " \
-          "Please remove any specification of `syntax` configuration."
-        )
+        if self.class.warn_about_syntax?
+          RSpec.deprecate('Expectations syntax configuration',
+                          :replacement => 'the default `expect` syntax',
+                          :call_site => nil)
+        end
         if Array(values).include?(:expect)
           Expectations::Syntax.enable_expect
         else
@@ -56,11 +56,28 @@ module RSpec
         end
 
         if Array(values).include?(:should)
+          if self.class.warn_about_syntax?
+            RSpec.deprecate('`:should` Expectations syntax',
+                            :replacement => 'the default `expect` syntax',
+                            :call_site => nil)
+          end
           Expectations::Syntax.enable_should
         else
           Expectations::Syntax.disable_should
         end
       end
+
+      # @private
+      def self.warn_about_syntax?
+        @warn_about_syntax
+      end
+
+      # @private
+      def self.warn_about_syntax!
+        @warn_about_syntax = true
+      end
+
+      @warn_about_syntax = false
 
       # Configures the maximum character length that RSpec will print while
       # formatting an object. You can set length to nil to prevent RSpec from
@@ -230,5 +247,6 @@ module RSpec
 
     # set default syntax
     configuration.reset_syntaxes_to_default
+    Configuration.warn_about_syntax!
   end
 end

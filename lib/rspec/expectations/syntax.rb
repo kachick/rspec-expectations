@@ -13,7 +13,7 @@ module RSpec
       end
 
       # @api private
-      # Generates a deprecation warning for the given method
+      # Generates a deprecation warning everytime should expectations is used
       def warn_about_should(method_name)
         RSpec.deprecate(
           "`should =`",
